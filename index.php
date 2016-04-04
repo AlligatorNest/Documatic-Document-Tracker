@@ -8,6 +8,7 @@ require_once ("assets/includes/cls_documents.php");
 //get current userid
 $userid = 1;
 
+//get username
 $x = new User();
 $username = $x->getUsername($userid,$db);
 

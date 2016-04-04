@@ -1,13 +1,17 @@
 <?php
 require_once ("assets/database/MysqliDb.php");
 require_once ("assets/database/dbconnect.php");
+require_once ("assets/includes/cls_user.php");
+require_once ("assets/includes/cls_category.php");
+require_once ("assets/includes/cls_documents.php");
 
 
 //get current userid
 $useridSelected = $_POST["userId"];
 
 //get list of all users
-$users = $db->get('tblusers');
+$x = new User();
+$users = $x->getAllUsers($userid,$db);
 
 //html page header and menu
 require_once ("assets/includes/header.php");
@@ -72,39 +76,17 @@ require_once ("assets/includes/header.php");
 
         $userid = $_POST["userId"];
 
-        //get current username
-        $db->where ("userId", $userid);
-        $user = $db->getOne ("tblusers");
-        $username = $user['username'];
+        //get current username for selected user
+        $username = $x->getUsername($userid,$db);
 
         // get available documents for this userid assigned by Category
-        $params = Array($userid,$userid);
-        $q = "(
-        SELECT DISTINCT d.documentName,d.documentId
-        FROM tblusers u
-        INNER JOIN tblusercategoryxref ucX ON u.userId = ucx.userId
-        INNER JOIN tblcategory c ON ucx.categoryId = c.categoryId
-        INNER JOIN tbldocumentcategoryxref dcx on c.categoryId = dcx.categoryId
-        INNER JOIN tbldocument d on dcx.documentId = d.documentId
-        WHERE d.documentId not in (SELECT documentid from tbldocumentuseraccess where userID = ?) AND
-        u.userId = ?
-        )";
-        $documents = $db->rawQuery ($q, $params);
-        $downloadCount = $db->count;
+        $d = new Document();
+        $documents = $d->getDocumentsCategory($userid,$db);
+        $downloadCount = $d->count;
 
         // get available documents for this userid assigned by userid
-        $params = Array($userid,$userid);
-        $q = "(
-        SELECT DISTINCT d.documentName,d.documentId
-        FROM tblusers u
-        INNER JOIN tbldocumentuserxref dux on u.userId = dux.userId
-        INNER JOIN tbldocument d on dux.documentId = d.documentId
-        WHERE d.documentId not in (SELECT documentid from tbldocumentuseraccess where userID = ?) AND
-        u.userId = ?
-        )";
-        $userdocuments = $db->rawQuery ($q, $params);
-
-        $downloadCount += $db->count;
+        $userdocuments = $d->getDocumentsUser($userid,$db);
+        $downloadCount += $d->count;
 
         if ($downloadCount > 0) {
           $msg =  $downloadCount . " new documents pending download for " . $username .".";
@@ -113,17 +95,8 @@ require_once ("assets/includes/header.php");
         };
 
         // get download history for this userid
-        $params = Array($userid);
-        $q = "(
-        SELECT DISTINCT d.documentName,d.documentId,dua.accessDate
-        FROM tblusers u
-        INNER JOIN tbldocumentuseraccess dua on u.userId = dua.userId
-        INNER JOIN tbldocument d on dua.documentId = d.documentId
-        WHERE u.userId = ?
-        ORDER BY dua.accessDate DESC
+        $downloads = $d->getDocumentHistory($userid,$db);
 
-        )";
-        $downloads = $db->rawQuery ($q, $params);
         ?>
         <p><hr></p>
         <div class="container">

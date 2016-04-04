@@ -10,6 +10,13 @@ class User
       return $user['username'];
     }
 
+    public function getAllUsers($userid,$db)
+    {
+      //get all users
+      $users = $db->get('tblusers');
+      return $users;
+    }
+
 }
 
 

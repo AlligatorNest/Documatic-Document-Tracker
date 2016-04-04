@@ -40,6 +40,24 @@ class Document
       return $userdocuments;
     }
 
+    //get documents download history
+    public function getDocumentHistory($userid,$db)
+    {
+      $params = Array($userid);
+      $q = "(
+      SELECT DISTINCT d.documentName,d.documentId,dua.accessDate
+      FROM tblusers u
+      INNER JOIN tbldocumentuseraccess dua on u.userId = dua.userId
+      INNER JOIN tbldocument d on dua.documentId = d.documentId
+      WHERE u.userId = ?
+      ORDER BY dua.accessDate DESC
+      )";
+
+      $downloads = $db->rawQuery ($q, $params);
+      $this->count = $db->count;
+      return $downloads;
+    }
+
 }
 
 
