@@ -1,8 +1,6 @@
 <?php
 require_once ("assets/database/MysqliDb.php");
-error_reporting(E_ALL);
-$db = new Mysqlidb('localhost', 'root', '', 'documents');
-if(!$db) die("Database error");
+require_once ("assets/database/dbconnect.php");
 
 //determine what action we need to process
 $action = $_POST["action"];
