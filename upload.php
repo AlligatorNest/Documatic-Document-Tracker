@@ -21,20 +21,10 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
   if ($action == 'uploadDocument') {
 
     $documentName = $_POST['documentName'];
+    $documentCategorySelected = (isset($_POST['documentCategory']) ? $_POST['documentCategory'] : '' );
+    $usersSelected = (isset($_POST['users']) ? $_POST['users'] : '' );
 
-    if (isset($_POST['documentCategory'])) {
-      $documentCategorySelected = $_POST['documentCategory'];
-    } else {
-      $documentCategorySelected = '';
-    };
-
-    if (isset($_POST['users'])) {
-      $usersSelected = $_POST['users'];
-    } else {
-      $usersSelected = '';
-    };
-
-      $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$db);
+    $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$db);
 
   };
 };
