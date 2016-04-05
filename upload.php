@@ -4,6 +4,7 @@ require_once ("assets/database/dbconnect.php");
 require_once ("assets/includes/cls_user.php");
 require_once ("assets/includes/cls_category.php");
 require_once ("assets/includes/cls_documents.php");
+require_once ("assets/includes/upload_process.php");
 
 //get list of all users for drop down
 $x = new User();
@@ -19,64 +20,21 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
 
   if ($action == 'uploadDocument') {
 
-    //get new document name
-    $documentName = $_POST["documentName"];
+    $documentName = $_POST['documentName'];
 
-    //Create array of selected document catetories
-    $categoryIdAry = array();
     if (isset($_POST['documentCategory'])) {
-
-      $categoryId=$_POST['documentCategory'];
-
-      if ($categoryId)
-      {
-          foreach ($categoryId as $value)
-          {
-              array_push($categoryIdAry,$value);
-          };
-      };
+      $documentCategorySelected = $_POST['documentCategory'];
+    } else {
+      $documentCategorySelected = '';
     };
 
-    //Create array of assigned document users
-    $userIdAry = array();
     if (isset($_POST['users'])) {
-      $userId=$_POST['users'];
-
-      if ($userId)
-      {
-          foreach ($userId as $value)
-          {
-              array_push($userIdAry,$value);
-          };
-      };
+      $usersSelected = $_POST['users'];
+    } else {
+      $usersSelected = '';
     };
 
-    //insert document and get id
-    $data = Array ("documentName" => $documentName);
-    $d = new Document();
-    $documentId = $d-> DocumentInsert($documentName,$data,$db);
-
-
-    //insert documentid and categoryIds
-    foreach ($categoryIdAry as $categoryId) {
-      $data = Array (
-                      "documentId" => $documentId,
-                      "categoryId" => $categoryId
-                    );
-      $documentCatId = $d-> DocumentCategoryInsert($data,$db);
-    };
-
-    //insert into documentUserXref table if users selected
-    foreach ($userIdAry as $userId) {
-      $data = Array (
-                      "documentId" => $documentId,
-                      "userId" => $userId
-                    );
-      $documentUserId = $d-> DocumentUserInsert($data,$db);
-
-    };
-
-    $msg = 'Your document has been uploaded.';
+      $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$db);
 
   };
 };
