@@ -11,7 +11,7 @@ $useridSelected = $_POST["userId"];
 
 //get list of all users
 $x = new User();
-$users = $x->getAllUsers($userid,$db);
+$users = $x->getAllUsers($db);
 
 //html page header and menu
 require_once ("assets/includes/header.php");

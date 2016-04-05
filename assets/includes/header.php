@@ -19,6 +19,18 @@
     <!-- Custom styles for this template -->
     <link href="/assets/css/custom-css.css" rel="stylesheet">
 
+    <!-- Jqueru -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+
+    <script>
+    $(document).ready(function () {
+      $(".nav a").on("click", function(){
+         $(".nav").find(".active").removeClass("active");
+         $(this).parent().addClass("active");
+      });
+    });
+    </script>
+
 
   </head>
 
@@ -37,7 +49,7 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li class="active"><a href="index.php">Provider View</a></li>
+            <li><a href="index.php">Provider View</a></li>
             <li><a href="report.php">Admin: Reporting</a></li>
             <li><a href="upload.php">Admin: Upload</a></li>
             <li><a href="resetdemo.php">Reset Demo</a></li>

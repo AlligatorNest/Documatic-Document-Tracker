@@ -58,6 +58,29 @@ class Document
       return $downloads;
     }
 
+    //insert new document
+    public function DocumentInsert($documentName,$data,$db)
+    {
+      $documentId = $db->insert ('tbldocument', $data);
+      return $documentId;
+    }
+
+    //insert new documentCategoryxRef
+    public function DocumentCategoryInsert($data,$db)
+    {
+      $documentCatId = $db->insert ('tbldocumentcategoryxref', $data);
+      return $documentCatId;
+    }
+
+    //insert new documentCategoryxRef
+    public function DocumentUserInsert($data,$db)
+    {
+      $documentUserId = $db->insert ('tbldocumentUserXref', $data);
+      return $documentUserId;
+    }
+
+
+
 }
 
 

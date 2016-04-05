@@ -1,14 +1,17 @@
 <?php
 require_once ("assets/database/MysqliDb.php");
 require_once ("assets/database/dbconnect.php");
+require_once ("assets/includes/cls_user.php");
+require_once ("assets/includes/cls_category.php");
+require_once ("assets/includes/cls_documents.php");
 
-//get list of all users
-$users = $db->get('tblusers');
+//get list of all users for drop down
+$x = new User();
+$users = $x->getAllUsers($db);
 
 $msg = '';
 
 //upload the document
-//if($_POST && isset($_POST['action'], $_POST['documentName'], $_POST['documentCategory'], $_POST['users']))
 if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['documentCategory']) || isset($_POST['users'])))
 
 {
@@ -16,35 +19,43 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
 
   if ($action == 'uploadDocument') {
 
+    //get new document name
     $documentName = $_POST["documentName"];
 
-    //get categorys to assign document to - in array if multiple
+    //Create array of selected document catetories
     $categoryIdAry = array();
-    $categoryId=$_POST['documentCategory'];
+    if (isset($_POST['documentCategory'])) {
 
-    if ($categoryId)
-    {
-        foreach ($categoryId as $value)
-        {
-            array_push($categoryIdAry,$value);
-        };
+      $categoryId=$_POST['documentCategory'];
+
+      if ($categoryId)
+      {
+          foreach ($categoryId as $value)
+          {
+              array_push($categoryIdAry,$value);
+          };
+      };
     };
 
-    //get userIds to assign document to - in array if multiple
+    //Create array of assigned document users
     $userIdAry = array();
-    $userId=$_POST['users'];
+    if (isset($_POST['users'])) {
+      $userId=$_POST['users'];
 
-    if ($userId)
-    {
-        foreach ($userId as $value)
-        {
-            array_push($userIdAry,$value);
-        };
+      if ($userId)
+      {
+          foreach ($userId as $value)
+          {
+              array_push($userIdAry,$value);
+          };
+      };
     };
 
     //insert document and get id
     $data = Array ("documentName" => $documentName);
-    $documentId = $db->insert ('tbldocument', $data);
+    $d = new Document();
+    $documentId = $d-> DocumentInsert($documentName,$data,$db);
+
 
     //insert documentid and categoryIds
     foreach ($categoryIdAry as $categoryId) {
@@ -52,7 +63,7 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
                       "documentId" => $documentId,
                       "categoryId" => $categoryId
                     );
-      $documentCatId = $db->insert ('tbldocumentcategoryxref', $data);
+      $documentCatId = $d-> DocumentCategoryInsert($data,$db);
     };
 
     //insert into documentUserXref table if users selected
@@ -61,9 +72,9 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
                       "documentId" => $documentId,
                       "userId" => $userId
                     );
-      $documentUserId = $db->insert ('tbldocumentUserXref', $data);
-    };
+      $documentUserId = $d-> DocumentUserInsert($data,$db);
 
+    };
 
     $msg = 'Your document has been uploaded.';
 
@@ -71,7 +82,7 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
 };
 
 
-//get categries for userid
+//get all categories for drop down
 $q = "(SELECT category,categoryId FROM tblcategory)";
 $categories = $db->rawQuery ($q);
 
