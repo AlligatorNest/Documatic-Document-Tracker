@@ -1,5 +1,5 @@
 <?php
-function documentUpload ($documentName,$documentCategory,$fileToUpload,$users,$db) {
+function documentUpload ($documentName,$documentCategory,$users,$file_name,$file_size,$file_tmp,$db) {
 
     //Create array of selected document catetories
     $categoryIdAry = array();
@@ -32,12 +32,12 @@ function documentUpload ($documentName,$documentCategory,$fileToUpload,$users,$d
 
     //Get uploaded document info
     $target_dir = "uploads/";
-    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $target_file = $target_dir . basename($file_name);
     $uploadOk = 1;
     $target_FileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
     // Check file size
-    if ($_FILES["fileToUpload"]["size"] > 500000) {
+    if ($file_size > 500000) {
         $msg = "Sorry, your file is too large.";
         $uploadOk = 0;
     }
@@ -51,8 +51,8 @@ function documentUpload ($documentName,$documentCategory,$fileToUpload,$users,$d
 
     // Upload the document
     if ($uploadOk !== 0) {
-        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
-          $msg = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        if (move_uploaded_file($file_tmp, $target_file)) {
+          $msg = "The file ". basename( $file_name ). " has been uploaded.";
         } else {
           $msg = "Sorry, there was an error uploading your file.";
         }

@@ -13,7 +13,7 @@ $users = $x->getAllUsers($db);
 $msg = '';
 
 //upload the document
-if($_POST && isset($_POST['action'], $_POST['documentName'], $_POST['$fileToUpload']) && (isset($_POST['documentCategory']) || isset($_POST['users'])))
+if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['documentCategory']) || isset($_POST['users'])))
 
 {
   $action = $_POST["action"];
@@ -24,9 +24,18 @@ if($_POST && isset($_POST['action'], $_POST['documentName'], $_POST['$fileToUplo
     $documentCategorySelected = (isset($_POST['documentCategory']) ? $_POST['documentCategory'] : '' );
     $usersSelected = (isset($_POST['users']) ? $_POST['users'] : '' );
 
-    $msg = documentUpload ($documentName,$documentCategorySelected,$fileToUpload,$usersSelected,$db);
+    if(isset($_FILES['fileToUpload'])){
+      //Get Upload File info
+      $file_name = $_FILES["fileToUpload"]["name"];
+      $file_size = $_FILES["fileToUpload"]["size"];
+      $file_tmp = $_FILES["fileToUpload"]["tmp_name"];
 
+      $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$file_name,$file_size,$file_tmp,$db);
+    } else {
+      $msg = "Please select a document to upload";}
   };
+} else {
+  $msg = "All fields are required.";
 };
 
 
