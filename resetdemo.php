@@ -1,4 +1,5 @@
 <?php
+require_once ("assets/includes/global.php");
 require_once ("assets/database/MysqliDb.php");
 require_once ("assets/database/dbconnect.php");
 

@@ -31,7 +31,7 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
     };
 
     //Get uploaded document info
-    $target_dir = "uploads/";
+    $target_dir = $upload_dir;
     $target_file = $target_dir . basename($file_name);
     $uploadOk = 1;
     $target_FileType = pathinfo($target_file,PATHINFO_EXTENSION);
