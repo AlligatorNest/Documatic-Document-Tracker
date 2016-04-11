@@ -1,5 +1,5 @@
 <?php
-function documentUpload ($documentName,$documentCategory,$users,$db) {
+function documentUpload ($documentName,$documentCategory,$fileToUpload,$users,$db) {
 
     //Create array of selected document catetories
     $categoryIdAry = array();
@@ -30,8 +30,38 @@ function documentUpload ($documentName,$documentCategory,$users,$db) {
       };
     };
 
-    //insert document and get id
-    $data = Array ("documentName" => $documentName);
+    //Get uploaded document info
+    $target_dir = "uploads/";
+    $target_file = $target_dir . basename($_FILES["fileToUpload"]["name"]);
+    $uploadOk = 1;
+    $target_FileType = pathinfo($target_file,PATHINFO_EXTENSION);
+
+    // Check file size
+    if ($_FILES["fileToUpload"]["size"] > 500000) {
+        $msg = "Sorry, your file is too large.";
+        $uploadOk = 0;
+    }
+
+    // Allow certain file formats
+    if($target_FileType != "docx" && $target_FileType != "doc" && $target_FileType != "pdf"
+    && $target_FileType != "txt" ) {
+        $msg = "Sorry, only document files are allowed.";
+        $uploadOk = 0;
+    }
+
+    // Upload the document
+    if ($uploadOk !== 0) {
+        if (move_uploaded_file($_FILES["fileToUpload"]["tmp_name"], $target_file)) {
+          $msg = "The file ". basename( $_FILES["fileToUpload"]["name"]). " has been uploaded.";
+        } else {
+          $msg = "Sorry, there was an error uploading your file.";
+        }
+    }
+
+
+
+    //insert document name and path and get id
+    $data = Array ("documentName" => $documentName, "documentPath" => $target_file);
     $d = new Document();
     $documentId = $d-> DocumentInsert($documentName,$data,$db);
 
@@ -55,7 +85,6 @@ function documentUpload ($documentName,$documentCategory,$users,$db) {
 
     };
 
-    $msg = 'Your document has been uploaded.';
     return $msg;
 
 }

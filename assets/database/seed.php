@@ -56,6 +56,7 @@ $tables = Array (
     'document' => Array (
         'documentId' => 'int(11) NOT NULL AUTO_INCREMENT, PRIMARY KEY (documentId)',
         'documentName' => 'char(50) NOT NULL',
+        'documentPath' => 'char(5000) NULL',
         'adddate' => 'datetime NOT NULL DEFAULT CURRENT_TIMESTAMP'
     )
 );

@@ -7,7 +7,7 @@ class Document
     {
       $params = Array($userid,$userid);
       $q = "(
-      SELECT DISTINCT d.documentName,d.documentId
+      SELECT DISTINCT d.documentName,d.documentId,d.documentPath
       FROM tblusers u
       INNER JOIN tblusercategoryxref ucX ON u.userId = ucx.userId
       INNER JOIN tblcategory c ON ucx.categoryId = c.categoryId
@@ -27,7 +27,7 @@ class Document
     {
       $params = Array($userid,$userid);
       $q = "(
-      SELECT DISTINCT d.documentName,d.documentId
+      SELECT DISTINCT d.documentName,d.documentId,d.documentPath
       FROM tblusers u
       INNER JOIN tbldocumentuserxref dux on u.userId = dux.userId
       INNER JOIN tbldocument d on dux.documentId = d.documentId

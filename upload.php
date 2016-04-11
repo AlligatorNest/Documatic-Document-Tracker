@@ -13,7 +13,7 @@ $users = $x->getAllUsers($db);
 $msg = '';
 
 //upload the document
-if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['documentCategory']) || isset($_POST['users'])))
+if($_POST && isset($_POST['action'], $_POST['documentName'], $_POST['$fileToUpload']) && (isset($_POST['documentCategory']) || isset($_POST['users'])))
 
 {
   $action = $_POST["action"];
@@ -24,7 +24,7 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
     $documentCategorySelected = (isset($_POST['documentCategory']) ? $_POST['documentCategory'] : '' );
     $usersSelected = (isset($_POST['users']) ? $_POST['users'] : '' );
 
-    $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$db);
+    $msg = documentUpload ($documentName,$documentCategorySelected,$fileToUpload,$usersSelected,$db);
 
   };
 };
@@ -50,7 +50,7 @@ require_once ("assets/includes/header.php");
       <p class="bg-success"><?php echo $msg ?></p>
       <div class="container">
 
-        <form method="post">
+        <form method="post" enctype="multipart/form-data">
           <div class="form-group">
             <input type="hidden" name="action" value="uploadDocument">
             <label for="documentName">Document Name</label>
@@ -59,7 +59,7 @@ require_once ("assets/includes/header.php");
 
           <div class="form-group">
             <label for="documentFile">Select File</label>
-            <input type="file" id="documentFile" name="documentFile">
+            <input type="file" id="fileToUpload" name="fileToUpload">
             <p class="help-block">Select file to upload from your local computer.</p>
           </div>
 
