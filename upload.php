@@ -31,7 +31,7 @@ if($_POST && isset($_POST['action'], $_POST['documentName']) && (isset($_POST['d
       $file_size = $_FILES["fileToUpload"]["size"];
       $file_tmp = $_FILES["fileToUpload"]["tmp_name"];
 
-      $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$file_name,$file_size,$file_tmp,$db);
+      $msg = documentUpload ($documentName,$documentCategorySelected,$usersSelected,$file_name,$file_size,$file_tmp,$upload_dir,$db);
     } else {
       $msg = "Please select a document to upload";}
   };

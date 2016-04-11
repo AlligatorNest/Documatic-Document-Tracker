@@ -65,7 +65,7 @@ require_once ("assets/includes/header.php");
       <?php
       foreach ($documents as $document){
         echo '<div class="row">';
-        echo '<div class="col-xs-4">' .$document['documentName'] . '</div><div class="col-xs-8">' . '<input id="' . $document['documentId'] . ',' . $userid . '" type="button" name="download" value="Download"> </div>';
+        echo '<div class="col-xs-4">' .$document['documentName'] . '</div><div class="col-xs-8">' . '<a href="'. $upload_dir . $document['documentPath'] .'"><input id="' . $document['documentId'] . ',' . $userid . '" type="button" name="download" value="Download"></a></div>';
         echo '</div>';
       }
       ?>
@@ -78,7 +78,7 @@ require_once ("assets/includes/header.php");
       <?php
       foreach ($userdocuments as $userdocument){
         echo '<div class="row">';
-        echo '<div class="col-xs-4">' .$userdocument['documentName'] . '</div><div class="col-xs-8">' . '<input id="' . $userdocument['documentId'] . ',' . $userid . '" type="button" name="download" value="Download"> </div>';
+        echo '<div class="col-xs-4">' .$userdocument['documentName'] . '</div><div class="col-xs-8">' . '<a href="'. $upload_dir . $userdocument['documentPath'] .'"><input id="' . $userdocument['documentId'] . ',' . $userid . '" type="button" name="download" value="Download"></a></div>';
         echo '</div>';
       }
       ?>

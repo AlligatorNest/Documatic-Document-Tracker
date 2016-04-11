@@ -1,5 +1,5 @@
 <?php
-function documentUpload ($documentName,$documentCategory,$users,$file_name,$file_size,$file_tmp,$db) {
+function documentUpload ($documentName,$documentCategory,$users,$file_name,$file_size,$file_tmp,$upload_dir,$db) {
 
     //Create array of selected document catetories
     $categoryIdAry = array();
