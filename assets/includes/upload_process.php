@@ -9,10 +9,7 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
 
       if ($categoryId)
       {
-          foreach ($categoryId as $value)
-          {
-              array_push($categoryIdAry,$value);
-          };
+          foreach ($categoryId as $value){array_push($categoryIdAry,$value);};
       };
     };
 
@@ -23,10 +20,7 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
 
       if ($userId)
       {
-          foreach ($userId as $value)
-          {
-              array_push($userIdAry,$value);
-          };
+          foreach ($userId as $value){array_push($userIdAry,$value);};
       };
     };
 

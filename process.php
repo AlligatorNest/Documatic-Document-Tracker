@@ -18,6 +18,5 @@ if ($action == 'download') {
 
   $id = $db->insert ('tbldocumentuseraccess', $data);
 
-
 }
 ?>

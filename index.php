@@ -27,7 +27,7 @@ $downloadCount = $d->count;
 $userdocuments = $d->getDocumentsUser($userid,$db);
 $downloadCount += $d->count;
 
-
+// Set message if docs area available for download.
 if ($downloadCount > 0) {
   $msg = "You have " . $downloadCount . " new documents available for download!";
 } else {
@@ -37,7 +37,6 @@ if ($downloadCount > 0) {
 //html page header and menu
 require_once ("assets/includes/header.php");
 ?>
-
 
     <!-- Begin page content -->
     <div class="container">
