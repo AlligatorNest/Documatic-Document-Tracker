@@ -36,6 +36,17 @@
 
   <body>
 
+    <?php
+    // function to set active class on selected nav item
+    function setActive($requestUri)
+    {
+        $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
+
+        if ($current_file_name == $requestUri)
+            echo 'class="active"';
+    }
+    ?>
+
     <nav class="navbar navbar-inverse navbar-fixed-top">
       <div class="container">
         <div class="navbar-header">
@@ -49,10 +60,10 @@
         </div>
         <div id="navbar" class="collapse navbar-collapse">
           <ul class="nav navbar-nav">
-            <li><a href="index.php">Provider View</a></li>
-            <li><a href="report.php">Admin: Reporting</a></li>
-            <li><a href="upload.php">Admin: Upload</a></li>
-            <li><a href="resetdemo.php">Reset Demo</a></li>
+            <li <?=setActive("index")?>><a href="index.php">Provider View</a></li>
+            <li <?=setActive("report")?>><a href="report.php">Admin: Reporting</a></li>
+            <li <?=setActive("upload")?>><a href="upload.php">Admin: Upload</a></li>
+            <li <?=setActive("resetdemo")?>><a href="resetdemo.php">Reset Demo</a></li>
           </ul>
         </div><!--/.nav-collapse -->
       </div>

@@ -7,8 +7,10 @@ require_once ("assets/includes/cls_category.php");
 require_once ("assets/includes/cls_documents.php");
 
 
-//get current userid
+//get selected userid from form submit
+if (isset($_POST['userId'])) {
 $useridSelected = $_POST["userId"];
+}
 
 //get list of all users
 $x = new User();
@@ -39,13 +41,6 @@ require_once ("assets/includes/header.php");
               <?php
               $str = '';
               foreach ($users as $user) {
-
-                  /*$str.= '<option value="' . $user['userId'] .'"';
-                  //if ($useridSelected == $user['userId']){ $str.= 'selected="selected"'; }
-                  $str.=  ($user['userId']  == $useridSelected  ? ' selected="selected"' : '');
-                  $str.= '>';
-                  $str.=  $user['username'] . '</option>';
-                  */
                   echo '<option value="' . $user['userId'] .'"'
                   . ($user['userId']  == $useridSelected  ? ' selected="selected"' : '') . '>'
                   . $user['username'] . '</option>';

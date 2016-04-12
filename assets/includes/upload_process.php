@@ -37,6 +37,7 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
     }
 
     // Get list of allowed docs to display in error message
+    $sFileTypes = '';
     foreach ($upload_file_types as $file_type) {$sFileTypes .=  $file_type . ',';}
     // Remove trailing comma
     $file_type = rtrim($file_type, ',');
