@@ -59,7 +59,7 @@ class Document
     }
 
     //insert new document
-    public function DocumentInsert($documentName,$data,$db)
+    public function DocumentInsert($data,$db)
     {
       $documentId = $db->insert ('tbldocument', $data);
       return $documentId;

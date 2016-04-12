@@ -1,5 +1,5 @@
 <?php
-function documentUpload ($documentName,$documentCategory,$users,$file_name,$file_size,$file_tmp,$upload_dir,$db) {
+function documentUpload ($documentName,$documentCategory,$users,$file_name,$file_size,$file_tmp,$upload_dir,$upload_max_size,$upload_file_types,$db) {
 
     //Create array of selected document catetories
     $categoryIdAry = array();
@@ -31,23 +31,33 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
     };
 
     //Get uploaded document info
-    $target_dir = $upload_dir;
+    $target_dir = $upload_dir ."/";
     $target_file = $target_dir . basename($file_name);
     $uploadOk = 1;
     $target_FileType = pathinfo($target_file,PATHINFO_EXTENSION);
 
     // Check file size
-    if ($file_size > 500000) {
+    if ($file_size > $upload_max_size) {
         $msg = "Sorry, your file is too large.";
         $uploadOk = 0;
     }
 
-    // Allow certain file formats
-    if($target_FileType != "docx" && $target_FileType != "doc" && $target_FileType != "pdf"
-    && $target_FileType != "txt" ) {
-        $msg = "Sorry, only document files are allowed.";
+    // Get list of allowed docs to display in error message
+    foreach ($upload_file_types as $file_type) {$sFileTypes .=  $file_type . ',';}
+    // Remove trailing comma
+    $file_type = rtrim($file_type, ',');
+
+    // Loop through to see if uploaded doc type is allowed
+    foreach ($upload_file_types as $file_type) {
+      if($target_FileType == $file_type){
+        $uploadOk = 1;
+        break;
+      } else {
         $uploadOk = 0;
+        $msg = "Sorry, only <strong>" . $sFileTypes . "</strong> document files are allowed. You tried to upload a <strong>" . $target_FileType . '</strong>.';
+      }
     }
+
 
     // Upload the document
     if ($uploadOk !== 0) {
@@ -63,7 +73,7 @@ function documentUpload ($documentName,$documentCategory,$users,$file_name,$file
     //insert document name and path and get id
     $data = Array ("documentName" => $documentName, "documentPath" => $target_file);
     $d = new Document();
-    $documentId = $d-> DocumentInsert($documentName,$data,$db);
+    $documentId = $d-> DocumentInsert($data,$db);
 
 
     //insert documentid and categoryIds

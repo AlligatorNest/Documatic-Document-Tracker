@@ -10,5 +10,8 @@ $db_server = 'localhost';
 /*******************
 * File upload Settings
 *******************/
-$upload_dir = "uploads/";
+$upload_dir = "uploads";
+$upload_max_size = 500000;
+$upload_file_types = Array("docx", "doc", "pdf","txt");
+
 ?>
