@@ -4,6 +4,12 @@ require_once ("assets/database/MysqliDb.php");
 require_once ("assets/database/dbconnect.php");
 
 
+//delete all records from documentuseraccess table
+$db->rawQuery('DELETE FROM tbldocumentuseraccess');
+$db->rawQuery('DELETE FROM tbldocumentuserxref');
+$db->rawQuery('DELETE FROM tbldocumentcategoryxref WHERE adddate > "2016-03-27 15:49:36"');
+$db->rawQuery('DELETE FROM tbldocument WHERE adddate > "2016-03-27 15:49:36"');
+
 //html page header and menu
 require_once ("assets/includes/header.php");
 ?>
@@ -12,17 +18,11 @@ require_once ("assets/includes/header.php");
     <div class="container">
 
       <div class="page-header">
-          <h1>Demo Reset</h1>
+
+
       </div>
 
-      <p class="lead">Dropping and rebuilding database with seed data.</p>
-      <hr>
-      <p>
-        <?php
-        //drop and rebuild database with seed records
-        require_once ("assets/database/seed.php");
-         ?>
-      </p>
+      <p class="lead">Demo Reset: Document download history deleted.</p>
 
 
       <?php

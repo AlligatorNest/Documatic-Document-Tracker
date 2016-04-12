@@ -1,11 +1,11 @@
 <?php
-require_once ("MysqliDb.php");
+//require_once ("MysqliDb.php");
 error_reporting(E_ALL);
 $prefix = 'tbl';
-$db = new Mysqlidb('localhost', 'root', '', 'documents');
-if(!$db) die("Database error");
-$mysqli = new mysqli ('localhost', 'root', '', 'documents');
-$db = new Mysqlidb($mysqli);
+//$db = new Mysqlidb('localhost', 'root', '', 'documents');
+//if(!$db) die("Database error");
+//$mysqli = new mysqli ('localhost', 'root', '', 'documents');
+//$db = new Mysqlidb($mysqli);
 $db = new Mysqlidb(Array (
                 'host' => 'localhost',
                 'username' => 'root',
@@ -192,6 +192,7 @@ $q = "create table {$prefix}test (id int(10), name varchar(10));";
 $db->rawQuery($q);
 */
 
-echo "All done\n";
-echo "Memory usage: ".memory_get_peak_usage()."\n";
+echo "<p class='lead'>All done: ";
+echo "Memory usage: ".memory_get_peak_usage()."</p>";
+
 ?>
