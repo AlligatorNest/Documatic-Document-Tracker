@@ -5,10 +5,10 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <meta name="description" content="">
-    <meta name="author" content="">
+    <meta name="description" content="<?php echo $appDescription ?>">
+    <meta name="author" content="<?php echo $appAuthor ?>">
 
-    <title>Documatic</title>
+    <title><?php echo $pageTitle ?></title>
 
     <!-- Bootstrap core CSS -->
     <link href="/assets/css/bootstrap.min.css" rel="stylesheet">
@@ -22,16 +22,6 @@
     <!-- Jqueru -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
 
-    <script>
-    $(document).ready(function () {
-      $(".nav a").on("click", function(){
-         $(".nav").find(".active").removeClass("active");
-         $(this).parent().addClass("active");
-      });
-    });
-    </script>
-
-
   </head>
 
   <body>
@@ -41,9 +31,7 @@
     function setActive($requestUri)
     {
         $current_file_name = basename($_SERVER['REQUEST_URI'], ".php");
-
-        if ($current_file_name == $requestUri)
-            echo 'class="active"';
+        if ($current_file_name == $requestUri) echo 'class="active"';
     }
     ?>
 

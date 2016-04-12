@@ -1,5 +1,12 @@
 <?php
 /*******************
+* HTML Meta Tag Settings
+*******************/
+$pageTitle = "Documatic";
+$appDescription = "Document Management Application";
+$appAuthor = "Bryan Davidson";
+
+/*******************
 * Database Settings
 *******************/
 $db_user = 'root';
